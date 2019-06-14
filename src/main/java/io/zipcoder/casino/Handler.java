@@ -24,7 +24,9 @@ public void run() {
 
     switch (intergerInput) {
         case 0 :
-            Blackjack blackjack = new Blackjack();
+            Blackjack blackjack = new Blackjack(player,console);
+
+
             break;
         case 1 :
             GoFishPlayer goFishPlayer = new GoFishPlayer(player);

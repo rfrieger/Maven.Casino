@@ -2,9 +2,9 @@ package io.zipcoder.casino.games;
 
 import io.zipcoder.casino.gameTools.Card;
 import io.zipcoder.casino.player.BlackJackPlayer;
-import io.zipcoder.casino.player.Player;
 import io.zipcoder.casino.gameTools.Deck;
-import io.zipcoder.casino.gameTools.BlackJackInput;
+import io.zipcoder.casino.player.Player;
+import io.zipcoder.casino.utilities.Console;
 
 import java.util.ArrayList;
 
@@ -17,6 +17,9 @@ public class Blackjack extends CardGames implements GamblerGameInterface {
     private Integer dealerScore;
     private Double currentBet;
     private Deck deck = new Deck();
+    Console console;
+
+
 
     public Blackjack() {
         super();
@@ -25,10 +28,15 @@ public class Blackjack extends CardGames implements GamblerGameInterface {
         this.dealerScore = 0;
         this.currentBet = 0.0;
 
-
+    }
+    public Blackjack (Player player, Console console) {
+        this.console = console;
     }
 
     public void beginGame(){
+        //display("Welcome to the table " + BlackJackPlayer.player.getName() + "! \n");
+
+       
         deck.deal(2, player1);
         deck.deal(2, dealer);
         ArrayList<Card> playerHand = player1.getHand();
@@ -80,7 +88,7 @@ public class Blackjack extends CardGames implements GamblerGameInterface {
     public void dealerWin(){};
 
     public void playerWin(){};
-    //enums for the below
+
 
     public void stay() {};
 
