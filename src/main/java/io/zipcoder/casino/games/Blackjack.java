@@ -34,20 +34,22 @@ public class Blackjack extends CardGames implements GamblerGameInterface {
         ArrayList<Card> playerHand = player1.getHand();
         ArrayList<Card> dealerHand = dealer.getHand();
     }
-/**
+
 
     public Integer countPlayerHand(){
         int sum = 0;
-        for(int i : playerHand){
-            sum += i;
+        for(Card i : player1.getHand()){
+            Integer result = i.getCardValue().getCardIntegerValue();
+            sum += result;
         }
         return sum;
     }
 
     public Integer countDealerHand(){
         int sum = 0;
-        for(int i : dealerHand){
-            sum += i;
+        for(Card i : player1.getHand()){
+            Integer result = i.getCardValue().getCardIntegerValue();
+            sum += result;
         }
         return sum;
     }
@@ -58,7 +60,7 @@ public class Blackjack extends CardGames implements GamblerGameInterface {
         } else if ((countPlayerHand() < countDealerHand()) && (countDealerHand() <=21)){
             dealerWin();
         } else if ((countPlayerHand() == 21) && (countDealerHand() == 21)){
-            push();
+           // push();
         } else if ((countPlayerHand() > countDealerHand()) && (countPlayerHand() <=21)){
             playerWin();
         } else if (countDealerHand() > 21){
@@ -66,7 +68,7 @@ public class Blackjack extends CardGames implements GamblerGameInterface {
         }
 
     }
-*/
+
     public Integer calcPayment(Integer bet, Integer odds) {
         return null;
     }

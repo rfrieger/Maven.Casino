@@ -20,7 +20,7 @@ public enum CardValue {
     CardValue(Integer cardValue) {
         this.cardValue = cardValue;
     }
-    public Integer getCardValue() {
+    public Integer getCardIntegerValue() {
         return cardValue;
     }
 
