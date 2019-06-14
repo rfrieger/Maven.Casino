@@ -2,58 +2,87 @@ package io.zipcoder.casino.games;
 
 import io.zipcoder.casino.gameTools.Card;
 import io.zipcoder.casino.player.BlackJackPlayer;
-import io.zipcoder.casino.player.BlackJackPlayerNPC;
 import io.zipcoder.casino.player.Player;
+import io.zipcoder.casino.gameTools.Deck;
+import io.zipcoder.casino.gameTools.BlackJackInput;
+
+import java.util.ArrayList;
 
 public class Blackjack extends CardGames implements GamblerGameInterface {
 
     BlackJackPlayer player1 = new BlackJackPlayer();
-    BlackJackPlayerNPC player2 = new BlackJackPlayerNPC();
+    BlackJackPlayer dealer = new BlackJackPlayer();
 
     private Integer player1Score;
-    private Integer player2Score;
+    private Integer dealerScore;
     private Double currentBet;
+    private Deck deck = new Deck();
 
     public Blackjack() {
         super();
         this.odds = 2.0;
         this.player1Score = 0;
-        this.player2Score = 0;
+        this.dealerScore = 0;
         this.currentBet = 0.0;
 
 
     }
 
-    public void runGame(){
-        display("Hello "); //+ BlackJackPlayer.getName() + "!");
+    public void beginGame(){
+        deck.deal(2, player1);
+        deck.deal(2, dealer);
+        ArrayList<Card> playerHand = player1.getHand();
+        ArrayList<Card> dealerHand = dealer.getHand();
+    }
+/**
+
+    public Integer countPlayerHand(){
+        int sum = 0;
+        for(int i : playerHand){
+            sum += i;
+        }
+        return sum;
     }
 
-   /** public void getWinner(){
-        if(player1.currentHand() > 21){
-            playerLose();
-        } else if (player1.currentHand() < player2.currentHand() && player2 <=21){
-            playerLose();
-        } else if (player1.currentHand() == 21 && player2.currentHand() == 21){
+    public Integer countDealerHand(){
+        int sum = 0;
+        for(int i : dealerHand){
+            sum += i;
+        }
+        return sum;
+    }
+
+    public void getWinner(){
+        if(countPlayerHand() > 21){
+            dealerWin();
+        } else if ((countPlayerHand() < countDealerHand()) && (countDealerHand() <=21)){
+            dealerWin();
+        } else if ((countPlayerHand() == 21) && (countDealerHand() == 21)){
             push();
-        } else if {
+        } else if ((countPlayerHand() > countDealerHand()) && (countPlayerHand() <=21)){
+            playerWin();
+        } else if (countDealerHand() > 21){
+            playerWin();
+        }
 
-    } */
-
+    }
+*/
     public Integer calcPayment(Integer bet, Integer odds) {
         return null;
     }
 
     public void updateAccount(Integer num) {}
 
-    public void currentHand(){
+    public void currentHand(){};
 
-    };
+    public void dealerWin(){};
 
+    public void playerWin(){};
     //enums for the below
 
     public void stay() {};
 
-    public void spilt() {};
+    public void split() {};
 
     public void doubleDown(){};
 
@@ -70,14 +99,14 @@ public class Blackjack extends CardGames implements GamblerGameInterface {
     }
 
     public Integer getPlayer2Score() {
-        return player2Score;
+        return dealerScore;
     }
 
-    public void setPlayer2Score(Integer player2Score) {
-        this.player2Score = player2Score;
+    public void setPlayer2Score(Integer dealerScore) {
+        this.dealerScore = dealerScore;
     }
 
-    public void setCurrentBet(Double currentBet1) {
+    public void setCurrentBet(Double currentBet) {
 
         this.currentBet = currentBet;
     }
