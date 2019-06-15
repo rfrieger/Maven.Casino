@@ -1,17 +1,18 @@
 package io.zipcoder.casino.player;
-
+import io.zipcoder.casino.gameTools.Card;
 import io.zipcoder.casino.games.GoFish;
+import io.zipcoder.casino.gameTools.Card;
 
-import javax.smartcardio.Card;
+
 import java.util.ArrayList;
 
 public class GoFishPlayer extends CardGamePlayer {
-    Player player;
+
 
     public GoFishPlayer() {}
 
     public GoFishPlayer(Player player) {
-        this.player = player;
+        super(player);
     }
 
     public void endturn() {};
