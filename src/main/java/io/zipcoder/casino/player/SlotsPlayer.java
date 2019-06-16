@@ -14,7 +14,6 @@ public class SlotsPlayer extends Player implements GamblerInterface {
 
 
     public void bet(Double bet) {
-
     }
 
     public void betType (String betType) {

@@ -16,14 +16,13 @@ public class Slots extends Games implements GamblerGameInterface {
     private Double bet;
     private Double result;
 
-
-
-
-    public Player player;
+    //public Player player;
 
     Integer random = 0;
     String[] characters = new String[]{"cherry ", "orange ", "bell   ", "bars   ", "apple  ", "seven  "};
     String[][] toSave = new String[3][3];
+
+
 
 
     public Slots() {
@@ -40,19 +39,15 @@ public class Slots extends Games implements GamblerGameInterface {
     public void runGame() {
         display("Welcome to the slots " + slotsPlayer.player.getName() + "! \n");
 
-
-        int max = characters.length;
-        int min = 1;
-        int range = max - min + 1;
         slotsPlayer.setPlaying(true);
 
 
         do {
-        Double tempBet = console.getDoubleInput("How many lines would you like to bet? 1.0, 3.0 or 5.0?");
+        Double tempBet = console.getDoubleInput("How many lines would you like to bet? 1, 3 or 5?");
 
-           console.println(slotsPlayer.player.getAccount().toString());
+           //console.println(slotsPlayer.player.getAccount().toString());
             if (tempBet==1||tempBet==3||tempBet==5){
-                bet =tempBet;
+                bet = tempBet;
             }
               else{
                 console.println("please, choose between 1 or 3 or 5");
@@ -60,21 +55,14 @@ public class Slots extends Games implements GamblerGameInterface {
 
             }
             withdraw(bet);
-            //check user input here for bet
+            System.out.println(slotsPlayer.player.getAccount().toString());
+            generateMatrix();
 
-            // if user input == 1||3||5
-            // ==> set useer input to bet;
-            for (int i = 0; i <= 2; i++) {
-                for (int j = 0; j <= 2; j++) {
-                    int rand = (int) (Math.random() * range);
-                    System.out.print(characters[rand]);
-                    toSave[i][j] = characters[rand];
-                }
-                System.out.println();
+            double countPayLines = CheckWins(bet);
+
+            if(countPayLines>0) {
+                deposit(calcPayment1(bet, countPayLines)+bet);
             }
-
-
-            CheckWins(bet);
 
             System.out.println();
             System.out.println(slotsPlayer.player.getAccount().toString());
@@ -94,6 +82,26 @@ public class Slots extends Games implements GamblerGameInterface {
         endGame();
 
     }
+//////////////////////////////Generate Matrix//////////////////////////////
+   public void generateMatrix() {
+
+       int max = characters.length;
+       int min = 1;
+       int range = max - min + 1;
+
+       for (int i = 0; i <= 2; i++) {
+           for (int j = 0; j <= 2; j++) {
+               int rand = (int) (Math.random() * range);
+               System.out.print(characters[rand]);
+               toSave[i][j] = characters[rand];
+           }
+           System.out.println();
+       }
+
+   }
+
+
+
 
 ///////////////////////////////////Check Wins////////////////////////////////////////////////////////
 
@@ -136,9 +144,7 @@ public class Slots extends Games implements GamblerGameInterface {
                 }
 
             }
-            if(countPayLines>0) {
-                deposit(calcPayment1(bet, countPayLines)+bet);
-            }
+
         return countPayLines;
     }
 
@@ -172,8 +178,8 @@ public class Slots extends Games implements GamblerGameInterface {
     public Double calcPayment1(Double bet, Double countPayLines) {
 
         result =bet * countPayLines;
-        System.out.println("You won "+ result+"$");
-        updateAccount(result);
+        System.out.println("You won "+ result+bet +"$");
+      updateAccount(result);
         return result;
 
     }
@@ -191,27 +197,24 @@ public class Slots extends Games implements GamblerGameInterface {
         this.currentBet = currentBet;
     }
 
+
     public Double calcPayment(Double bet, Double odds) {
-        return bet * odds;
+        return null;
     }
 
     public void withdraw(Double num) {
-       Double tempAccount =  slotsPlayer.player.getAccount();
-       slotsPlayer.setAccount(tempAccount-num);
-
-
+        Double tempAccount =  slotsPlayer.player.getAccount();
+        slotsPlayer.player.setAccount(tempAccount-num);
     }
 
     public void deposit(Double num) {
         Double tempAccount =  slotsPlayer.player.getAccount();
         slotsPlayer.player.setAccount(tempAccount+num);
-
-
-
-
     }
 
     public void updateAccount(Double num) {
+
+
 
     }
 }
