@@ -181,11 +181,21 @@ public class GoFishTest {
         Integer actual = goFishPlayer.getHand().size();
         Assert.assertFalse(goFish.checkForFour(goFishPlayer));
     }
-//    @Test
-//    public void RunGame() {
-//        goFish.runGame();
-//    }
-//
-//
+    @Test
+    public void RunGame() {
+        goFish.runGame();
+    }
+
+
+    @Test
+    public void playAgainTest() {
+        String choice = "YES";
+        Assert.assertTrue(goFish.playAgain(choice));
+    }
+    @Test
+    public void playAgainTest1() {
+        String choice = "no";
+        Assert.assertFalse(goFish.playAgain(choice));
+    }
 }
 

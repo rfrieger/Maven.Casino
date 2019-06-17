@@ -52,7 +52,7 @@ public class Blackjack extends Games implements GamblerGameInterface {
     ArrayList<Card> dealerHand = dealer.getHand();
 
     public void beginGame() {
-        console.println("Welcome to Blackjack!" + player1.getName());
+        console.println("Welcome to Blackjack!");
         String userInput = console.getStringInput("Ready to play? Y/N");
         while (readyToPlay(userInput)) {
             currentBet = console.getDoubleInput("Please place your current bet.");
@@ -125,7 +125,7 @@ public class Blackjack extends Games implements GamblerGameInterface {
 
     public Integer countPlayerHand() {
         int sum = 0;
-        for (Card i : player1.getHand()) {
+        for (Card i : playerHand) {
             Integer result = i.getCardValue().getCardIntegerValue();
             sum += result;
         }
@@ -134,7 +134,7 @@ public class Blackjack extends Games implements GamblerGameInterface {
 
     public Integer countDealerHand() {
         int sum = 0;
-        for (Card i : dealer.getHand()) {
+        for (Card i : dealerHand) {
             Integer result = i.getCardValue().getCardIntegerValue();
             sum += result;
         }
