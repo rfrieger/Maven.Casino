@@ -44,16 +44,6 @@ public class RouletteTest {
 
     }
 
-<<<<<<< HEAD
-//    @Test
-//    public void updateAccountDoubleTest() {
-//        //this.roulette.updateAccount(1.5);
-//        Double actual = this.roulette.roulettePlayer.getAccount();
-//        Assert.assertEquals(1.5, actual.doubleValue(), 0.0);
-//
-//
-//    }
-=======
 
     @Test
     public void isWinnerEvenTest() {
@@ -99,5 +89,4 @@ public class RouletteTest {
 
     }
 
->>>>>>> 95a8ea8cb2a3e67dd683b42be570774882040e36
 }

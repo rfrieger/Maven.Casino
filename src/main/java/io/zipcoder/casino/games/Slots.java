@@ -1,5 +1,6 @@
 package io.zipcoder.casino.games;
 
+import com.sun.javadoc.SourcePosition;
 import io.zipcoder.casino.Handler;
 import io.zipcoder.casino.player.Player;
 import io.zipcoder.casino.player.SlotsPlayer;
@@ -70,13 +71,13 @@ public class Slots extends Games implements GamblerGameInterface {
             String tryAgain = console.getStringInput("do you want to play again? choose between yes/no");
 
 
-           //if it is no it should bring you to the menu, where you are choosing the game)
+
             if (tryAgain.equals("no")) {
                 slotsPlayer.setPlaying(false);
             }
 
         } while (slotsPlayer.getPlaying().equals(true));
-        // should be added something that sends back to the main menu
+
 
 
         endGame();
@@ -84,16 +85,22 @@ public class Slots extends Games implements GamblerGameInterface {
     }
 //////////////////////////////Generate Matrix//////////////////////////////
    public void generateMatrix() {
-
+//        Random rand = new Random();
        int max = characters.length;
        int min = 1;
        int range = max - min + 1;
 
+
        for (int i = 0; i <= 2; i++) {
            for (int j = 0; j <= 2; j++) {
-               int rand = (int) (Math.random() * range);
-               System.out.print(characters[rand]);
-               toSave[i][j] = characters[rand];
+//               int rand = (int) (Math.random() * range);
+//               System.out.print(characters[rand]);
+//               toSave[i][j] = characters[rand];
+               Random rand = new Random();
+               int n = rand.nextInt(range);
+               System.out.print(characters[n]);
+               toSave[i][j]=characters[n];
+
            }
            System.out.println();
        }
@@ -185,7 +192,7 @@ public class Slots extends Games implements GamblerGameInterface {
     }
 
 
-//////////////////////////////mine
+//////////////////////////////account manipulations///////////////////////////////
 
 
 

@@ -7,6 +7,8 @@ import io.zipcoder.casino.utilities.Console;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.Random;
+
 import static org.junit.Assert.*;
 
 public class SlotsTest {
@@ -17,7 +19,11 @@ public class SlotsTest {
 
     @Test
     public void generateRandomTest(){
-
+//        Slots slots = new Slots();
+//
+//
+//        String actual = Random rand = new Random();
+//        String expected = rand.setSeed(1);
     }
     @Test
     public void checkWinsTest() {
