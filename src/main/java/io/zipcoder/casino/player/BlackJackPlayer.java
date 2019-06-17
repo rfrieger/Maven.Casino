@@ -3,7 +3,8 @@ package io.zipcoder.casino.player;
 //
 
 
-public class BlackJackPlayer extends CardGamePlayer implements GamblerInterface {
+public class BlackJackPlayer extends CardGamePlayer //implements GamblerInterface
+ {
 
 
     public BlackJackPlayer(Player player){
