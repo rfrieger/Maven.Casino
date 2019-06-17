@@ -70,8 +70,10 @@ public class Blackjack extends Games implements GamblerGameInterface {
             currentBet = console.getDoubleInput("Please place your current bet.");
             dealHand();
             player1Turn();
+            player1Turn2();
             dealerTurn();
             getWinner();
+            break;
         }
 
         }
@@ -99,13 +101,22 @@ public class Blackjack extends Games implements GamblerGameInterface {
         while ((player1Move(playerChoice))) {
             deck.dealSingleCard(player1);
             seeHand(player1);
+            if(countPlayerHand() > 21){
+                console.println("You bust!");
+            }
             break;
         }
+    }
+    public void player1Turn2(){
         console.println(seeHand(player1));
         String playerChoice2 = console.getStringInput("What do you want to do? Pick 1 for hit and 2 for stay.");
         while ((player1Move2(playerChoice2))) {
             deck.dealSingleCard(player1);
             seeHand(player1);
+            if(countPlayerHand() > 21){
+                console.println("You bust!");
+                break;
+            }
             break;
         }
 
