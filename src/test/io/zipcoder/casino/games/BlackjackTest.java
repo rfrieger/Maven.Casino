@@ -10,6 +10,12 @@ import io.zipcoder.casino.player.Player;
 public class BlackjackTest {
 
     @Test
+    public void countPlayerHandTest(){
+
+    }
+
+
+    @Test
     public void stayTest() {
 
     }
@@ -67,10 +73,10 @@ public class BlackjackTest {
     public void calcBJPaymentTest() {
         Blackjack blackjack = new Blackjack();
 
-        blackjack.setOdds(3.0);
-        blackjack.setCurrentBet(10.0);
+        blackjack.setOdds(2.0);
+        blackjack.setCurrentBet(100.0);
 
-        Double expected = 30.0;
+        Double expected = 200.0;
         Double actual = blackjack.calcPayment(blackjack.odds, blackjack.getCurrentBet());
 
         Assert.assertEquals(expected, actual);

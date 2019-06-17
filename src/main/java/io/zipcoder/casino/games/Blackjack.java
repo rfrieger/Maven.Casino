@@ -8,7 +8,7 @@ import io.zipcoder.casino.utilities.Console;
 
 import java.util.ArrayList;
 
-public class Blackjack extends CardGames implements GamblerGameInterface {
+public class Blackjack extends Games implements GamblerGameInterface {
 
     BlackJackPlayer player1 = new BlackJackPlayer();
     BlackJackPlayer dealer = new BlackJackPlayer();
@@ -16,9 +16,9 @@ public class Blackjack extends CardGames implements GamblerGameInterface {
     private Integer player1Score;
     private Integer dealerScore;
     private Double currentBet;
+    private String userInput;
     private Deck deck = new Deck();
     Console console;
-
 
 
     public Blackjack() {
@@ -27,98 +27,192 @@ public class Blackjack extends CardGames implements GamblerGameInterface {
         this.player1Score = 0;
         this.dealerScore = 0;
         this.currentBet = 0.0;
+        this.userInput = "";
 
     }
-    public Blackjack (Player player, Console console) {
+
+    public Blackjack(Player player, Console console) {
         this.console = console;
     }
 
-    /** 1)Prompt Player;
-        2)Run Game;
-        3)Deal;
-        4)Prompt Player;
-            4a) Stay();
-            4b) Hit();
-                b1) keep playing;
-                b2) bust/lose;
-        5) DealerTurn
-        6) Handle Winning/Loses */
+    /**
+     * 1)Prompt Player;
+     * 2)Run Game;
+     * 3)Deal;
+     * 4)Prompt Player;
+     * 4a) Stay();
+     * 4b) Hit();
+     * b1) keep playing;
+     * b2) bust/lose;
+     * 5) DealerTurn
+     * 6) Handle Winning/Loses
+     */
 
+    ArrayList<Card> playerHand = player1.getHand();
+    ArrayList<Card> dealerHand = dealer.getHand();
 
-
-    public void beginGame(){
+    public void beginGame() {
         console.println("Welcome to Blackjack!" + player1.getName());
+        String userInput = console.getStringInput("Ready to play? Y/N");
+        while (readyToPlay(userInput)) {
+            currentBet = console.getDoubleInput("Please place your current bet.");
+            dealHand();
+            player1Turn();
+            dealerTurn();
+        }
+        getWinner();
+    }
 
+    public String seeHand(BlackJackPlayer player) {
+        String hand = "";
+        for (Card c : player.getHand()
+        ) {
+            hand += c.getCardValue() + " of " + c.getSuit() + " ==== ";
+        }
+        return hand;
 
+    }
 
+    public void dealHand() {
         deck.deal(2, player1);
         deck.deal(2, dealer);
-        ArrayList<Card> playerHand = player1.getHand();
-        ArrayList<Card> dealerHand = dealer.getHand();
     }
 
-
-    public Integer countPlayerHand(){
-        int sum = 0;
-        for(Card i : player1.getHand()){
-            Integer result = i.getCardValue().getCardIntegerValue();
-            sum += result;
+    public void player1Turn() {
+        seeHand(player1);
+        String playerChoice = console.getStringInput("What do you want to do? Pick 1 for hit and 2 for stay.");
+        if ((player1Move(playerChoice))) {
+            deck.dealSingleCard(player1);
         }
-        return sum;
-    }
+        seeHand(player1);
 
-    public Integer countDealerHand(){
-        int sum = 0;
-        for(Card i : player1.getHand()){
-            Integer result = i.getCardValue().getCardIntegerValue();
-            sum += result;
+        String playerChoice2 = console.getStringInput("What do you want to do? Pick 1 for hit and 2 for stay.");
+        if ((player1Move2(playerChoice2))) {
+            deck.dealSingleCard(player1);
         }
-        return sum;
     }
 
-    public void getWinner(){
-        if(countPlayerHand() > 21){
-            dealerWin();
-        } else if ((countPlayerHand() < countDealerHand()) && (countDealerHand() <=21)){
-            dealerWin();
-        } else if ((countPlayerHand() == 21) && (countDealerHand() == 21)){
-           // push();
-        } else if ((countPlayerHand() > countDealerHand()) && (countPlayerHand() <=21)){
-            playerWin();
-        } else if (countDealerHand() > 21){
-            playerWin();
-        }
-
-    }
-
-    public boolean readyToPlay(String userInput) {
-        if (userInput.equalsIgnoreCase("yes")) {
+    public boolean player1Move(String playerChoice) {
+        if (userInput.equalsIgnoreCase("1")) {
             return true;
         } else {
             return false;
         }
     }
 
-    public void dealerWin(){};
+    public boolean player1Move2(String playerChoice2) {
+        if (userInput.equalsIgnoreCase("1")) {
+            return true;
+        } else {
+            return false;
+        }
 
-    public void playerWin(){};
+    }
+
+
+    public void dealerTurn() {
+        seeHand(dealer);
+        if (countPlayerHand() < countDealerHand()) {
+            getWinner();
+        } else {
+            deck.dealSingleCard(dealer);
+            if (countPlayerHand() < countDealerHand()) {
+                deck.dealSingleCard(dealer);
+            }
+        }
+
+    }
+
+    public Integer countPlayerHand() {
+        int sum = 0;
+        for (Card i : player1.getHand()) {
+            Integer result = i.getCardValue().getCardIntegerValue();
+            sum += result;
+        }
+        return sum;
+    }
+
+    public Integer countDealerHand() {
+        int sum = 0;
+        for (Card i : dealer.getHand()) {
+            Integer result = i.getCardValue().getCardIntegerValue();
+            sum += result;
+        }
+        return sum;
+    }
+
+    public void getWinner() {
+        if (countPlayerHand() > 21) {
+            console.println("Sorry, you lose");
+        } else if ((countPlayerHand() < countDealerHand()) && (countDealerHand() <= 21)) {
+            console.println("Sorry, you lose.");
+        } else if ((countPlayerHand() == 21) && (countDealerHand() == 21)) {
+            // push();
+        } else if ((countPlayerHand() > countDealerHand()) && (countPlayerHand() <= 21)) {
+            console.println("Congrats! You win this round.");
+        } else if (countDealerHand() > 21) {
+            console.println("Congrats! You win this round.");
+        }
+
+    }
+
+    public boolean readyToPlay(String userInput) {
+        if (userInput.equalsIgnoreCase("Y")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void dealerWin() {
+
+    }
+
+    ;
+
+    public void playerWin() {
+
+    }
+
+    ;
+
+    public double getCurrentBet() {
+        return currentBet;
+    }
+
+    public void playerAccount(){
+        double playerAccount = 0;
+    }
 
     public Integer calcPayment(Integer bet, Integer odds) {
         return null;
     }
 
-    public void updateAccount(Integer num) {}
+    public void updateAccount(Integer num) {
+    }
 
-    public void currentHand(){};
+    public void currentHand() {
+    }
 
-    public void stay() {};
+    ;
 
-    public void split() {};
+    public void stay() {
+    }
 
-    public void doubleDown(){};
+    ;
 
-    public Card hit() {
-        return null;
+    public void split() {
+    }
+
+    ;
+
+    public void doubleDown() {
+    }
+
+    ;
+
+    public void hit() {
+        deck.dealSingleCard(player1);
     }
 
     public Integer getPlayer1Score() {
@@ -142,16 +236,13 @@ public class Blackjack extends CardGames implements GamblerGameInterface {
         this.currentBet = currentBet;
     }
 
-    public double getCurrentBet(){
-        return currentBet;
-    }
 
-   /** public BlackJackPlayer getBlackJackPLayer() {
-
-       return blackJackPlayer;
-    } */
-
-
+    /**
+     * public BlackJackPlayer getBlackJackPLayer() {
+     * <p>
+     * return blackJackPlayer;
+     * }
+     */
 
 
     @Override
@@ -163,6 +254,7 @@ public class Blackjack extends CardGames implements GamblerGameInterface {
     void endGame() {
 
     }
+
 
     public Double calcPayment(Double bet, Double odds) {
         return null;
@@ -176,5 +268,13 @@ public class Blackjack extends CardGames implements GamblerGameInterface {
 
     }
 
-    public void getBlackJackPlayer(){};
+    public void getBlackJackPlayer() {
+    }
+
+    ;
+
+    @Override
+    boolean getResults() {
+        return false;
+    }
 }
