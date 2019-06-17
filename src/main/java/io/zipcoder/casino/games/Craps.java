@@ -1,112 +1,159 @@
 package io.zipcoder.casino.games;
 
+
 import io.zipcoder.casino.Handler;
 import io.zipcoder.casino.player.CrapsPlayer;
 import io.zipcoder.casino.player.Player;
 import io.zipcoder.casino.utilities.Console;
 
-import java.util.HashMap;
-import java.util.TreeMap;
 
 public class Craps extends Games implements GamblerGameInterface {
     private CrapsPlayer crapsPlayer;
-    private Integer onNumber;
-    private Double firstLineBet;
-    private Double secondLineBet;
-    private Double fieldBet;
-    private Integer fieldBetType;
-    private Double firstLineOdds = 2.0;
-    private Double secondLineOdds = 2.0;
-    private Double fieldBetodds = 12.0;
-    private Integer currentRoll;
-    //private HashMap<Integer , Integer> fieldOdds = new HashMap();
+    public Handler handler;
+    public CrapsDataHandler data = new CrapsDataHandler();
 
 
 
+    public Craps() {}
 
-
-    private Integer stage;
-    Console console = new Console(System.in, System.out);
-
-    public Craps() {};
 
     public Craps(CrapsPlayer player) {
         this.crapsPlayer = player;
         crapsPlayer.player.setPlaying(true);
-        this.stage = 0;
+        data.setStage(0);
 
     }
 
+    public Craps(CrapsPlayer player, Console console /*, Handler handler*/) {
+        this.crapsPlayer = player;
+        data.setConsole(console);
+        this.handler = handler;
+        crapsPlayer.player.setPlaying(true);
+        data.setStage(0);
 
-
-
+    }
 
     public void runGame() {
         display("Welcome to the table " + crapsPlayer.player.getName() + "! \n");
         while(crapsPlayer.player.getPlaying() == true) {
 
-            switch (stage) {
+            switch (data.getStage()) {
                 case 0:
-                    String input = console.getStringInput("A game has just ended would you like to play or exit? ");
+                    String input = data.getConsole().getStringInput("A game has just ended would you like to join the table?");
                     stage0Play(input);
                     break;
                 case 1:
-                    firstLineBet = (console.getDoubleInput("Let's get started! \n Place Your bet!"));
-                    currentRoll = crapsPlayer.roll();
-                    stage1Play(firstLineBet);
+                    if (data.getComeFirstRound()) {
+                        data.setFirstLineBet(data.getConsole().getDoubleInput("LET'S GET STARTED ON A NEW GAME!\n \n Losing rolls: [2] [3] [12]. \n Winning rolls: [7] [11]. \n [Any other roll becomes the on number]\n" + "\n"+ "Place your passline bet!"));
+                    } else {keepPlayingOrQuit();}
+                    if(hasMoenytoBet(data.getFirstLineBet(), crapsPlayer.player)){
+                        data.setCurrentRoll(crapsPlayer.roll());
+                        stage1Play(data.getFirstLineBet());
+                    }
+                    keepPlayingOrQuit();
                     break;
                 case 2:
-                    secondLineBet = console.getDoubleInput("Bet your push number bets! \n Place Your bet!");
-                    fieldBetType = console.getIntegerInput("What else do you want to bet?");
-                    fieldBet = console.getDoubleInput("how much do you want to bet on this?");
-                    currentRoll =crapsPlayer.roll();
-                    stage2Play(secondLineBet, fieldBet, fieldBetType);
+//                    keepPlayingOrQuit();
+                   if(data.getPassFirstRound()) {
+                        data.setSecondLineBet(data.getConsole().getDoubleInput("Winning roll: [" + data.getOnNumber() + "] \n Make your come out bet!"));
+                        data.setMakePropBet(data.getConsole().getStringInput("Would you like to make a prop bet"));
+                        if (checkForPropBet(data.getMakePropBet())) {
+                            data.setFieldBetType(data.getConsole().getIntegerInput("What prop bet do you want to make?"));
+                            data.setFieldBet(data.getConsole().getDoubleInput("how much do you want to bet on this?"));
+                        } else {
+                            display("NO PROP BETS PLACED, ROLL THE DICE! \n");}
+                    }
+                        if (hasMoenytoBet(data.getSecondLineBet() + data.getFieldBet(), crapsPlayer.player)) {
+                            data.setCurrentRoll(crapsPlayer.roll());
+                            stage2Play(data.getSecondLineBet(), data.getFieldBet(), data.getFieldBetType());
+                       }
+                    keepPlayingOrQuit();
                     break;
             }
         }
-
-        endGame();
     }
 
+/*----------------STAGE 0---------------*/
 
-    public void stage0Play(String input){
+    protected void stage0Play(String input){
+        Character firstLetter = input.toLowerCase().charAt(0);
+        if(input.toLowerCase().equals("play") || firstLetter.equals('y')) {
+            data.setStage(1);
 
-        if(input.toLowerCase().equals("play")) {
-            this.stage = 1;
-        } else if (input.toLowerCase().equals("exit")){
+        } else if (input.toLowerCase().equals("exit") || firstLetter.equals('n')){
             crapsPlayer.player.setPlaying(false);
         } else {
-            display("Excuse me I didnt understand");
+            display("Excuse me, I didnt understand");
         }
     }
 
-    public void stage1Play(Double firstLineBet){
-        withdraw(firstLineBet);
+/*----------------STAGE 1---------------*/
 
-        if(currentRoll.equals(2) || currentRoll.equals(3) || currentRoll.equals(12)) {
-            display(" you rolled a " + currentRoll +  "\n" + "Sorry you crapped out!");
-            this.stage = 0;
-        } else if (currentRoll.equals(7) || currentRoll.equals(11)) {
-            display(" you rolled a " + currentRoll +  "\n" + "you won!" +  calcPayment(firstLineOdds, firstLineBet));
-            deposit(calcPayment(firstLineBet, firstLineOdds) + firstLineBet);
-        } else if(currentRoll.equals(2) && currentRoll.equals(3) && !currentRoll.equals(12) && !currentRoll.equals(7) && !currentRoll.equals(11)){
-            display(" you rolled a " + currentRoll +  ".\n" + currentRoll + " is now the on number!");
-            setOnNumber(currentRoll);
-            this.stage = 2;
+
+    protected void stage1Play(Double firstLineBet){
+        if (data.getComeFirstRound()) {
+            withdraw(firstLineBet);
+        }
+        data.setComeFirstRound(false);
+        if(data.getCurrentRoll().equals(2) || data.getCurrentRoll().equals(3) || data.getCurrentRoll().equals(12)) {
+            display("you rolled a " + data.getCurrentRoll() +  "\n" + "SORRY YOU CRAPPED OUT!");
+            data.setStage(1);
+            display(displayCurrentState());
+            resetFirstRoundState();
+        } else if (data.getCurrentRoll().equals(7) || data.getCurrentRoll().equals(11)) {
+            deposit(calcPayment(firstLineBet, data.getFirstLineOdds()));
+            display(displayCurrentState());
+            display("YOU ROLLED A " + data.getCurrentRoll() +  "\n" + "YOU WON " +  calcPayment(data.getFirstLineOdds(), firstLineBet));
+        } else if(!data.getCurrentRoll().equals(2) && !data.getCurrentRoll().equals(3) && !data.getCurrentRoll().equals(12) && !data.getCurrentRoll().equals(7) && !data.getCurrentRoll().equals(11)){
+            display(displayCurrentState());
+            display("YOU ROLLED A " + data.getCurrentRoll() +  ".\n" + data.getCurrentRoll() + " IS NOW THE ON NUMBER! \n ");
+            data.setOnNumber(data.getCurrentRoll());
+            data.setStage(2);
+        }
+
+
+    }
+
+
+/*-----------------STAGE 2----------------*/
+
+
+    protected void stage2Play(Double secondLineBet, Double fieldBet, Integer fieldBetNumber ){
+        if(data.getPassFirstRound()) {
+            withdraw(secondLineBet);
+            withdraw(fieldBet);
+        }
+        data.setPassFirstRound(false);
+        if(data.getCurrentRoll().equals(7)) {
+            display("YOU ROLLED A " + data.getCurrentRoll() +  "\n" + "SORRY YOU CRAPPED OUT!");
+            data.setStage(1);
+            display(displayCurrentState());
+            resetFirstRoundState();
+        } else if (data.getCurrentRoll().equals(fieldBetNumber)) {
+            display(displayCurrentState());
+            Double wins = calcPayment(fieldBet, data.getfieldOdds(fieldBetNumber));
+            deposit(wins);
+            display(displayWinningRoll(wins));
+        }else if (data.getCurrentRoll().equals(data.getOnNumber())) {
+            display(displayCurrentState());
+            Double wins =  calcPayment(data.getfieldOdds(data.getOnNumber()), secondLineBet) + calcPayment(data.getfieldOdds(data.getOnNumber()), data.getFirstLineBet());
+            deposit(wins);
+            display(displayWinningRoll(wins));
         } else {
-        display("Excuse me I didnt understand");
+            display(displayCurrentState());
+            display( "YOU ROLLED A " + data.getCurrentRoll() +" NO WINNERS, ROLL AGAIN!");
+        }
     }
 
-    }
-
-    public void stage2Play(Double secondLineBet, Double fieldBet, Integer bet ){
-
-    }
 
     @Override
     void endGame() {
-        Handler handler = new Handler();
-        handler.run();
+        crapsPlayer.player.setPlaying(false);
+    }
+
+    @Override
+    void nextTurn() {
+
     }
 
     @Override
@@ -115,7 +162,7 @@ public class Craps extends Games implements GamblerGameInterface {
     }
 
     @Override
-    public void display(String output) {
+    protected void display(String output) {
         System.out.println(output);
     }
 
@@ -130,69 +177,55 @@ public class Craps extends Games implements GamblerGameInterface {
     }
 
     public Double calcPayment(Double bet, Double odds) {
-        return bet *odds;
+        return bet * odds;
     }
 
 
-    public Boolean hasMoenytoBet(Double bet, Player player) {
+    protected Boolean hasMoenytoBet(Double bet, Player player) {
         if (bet > player.getAccount()){
+            display("Not enough Money!!! \n you only have - " +
+                    crapsPlayer.player.getAccount());
             return false;
         } else return  true;
     }
 
+    protected void keepPlayingOrQuit() {
+        String quitOrContinue = data.getConsole().getStringInput("Would you like to keep playing?").toLowerCase();
+        Character firstletter = quitOrContinue.toLowerCase().charAt(0);
+        if (firstletter.equals('n')) {
+            endGame();
+        }
 
-    /*----Getters/Setters------*/
-
-    public Integer getOnNumber() {
-        return onNumber;
     }
 
-    public void setOnNumber(Integer onNumber) {
-        this.onNumber = onNumber;
+    protected String displayCurrentState() {
+           return
+                    "*-----------------------------------*\n" +
+                    "Current Balance: " + crapsPlayer.player.getAccount() + "\n" +
+                    "Passline Bet: " + data.getFirstLineBet() + "\n" +
+                    "Come Out Bet: " + data.getSecondLineBet() + "\n" +
+                    "On Number: " + data.getOnNumber() + "\n" +
+                    "Prop Bet Type: " + data.getFieldBetType() + "\n" +
+                    "Prob Bet: " + data.getFieldBet() + "\n" + "\n" +
+                            "*-----------------------------------*\n";
     }
 
-    public Double getFirstLineBet() {
-        return firstLineBet;
+    protected String  displayWinningRoll(Double wins){
+       return  "YOU ROLLED A " + data.getCurrentRoll() + "\n" + "YOU WON " + wins + "!";
     }
 
-    public void setFirstLineBet(Double firstLineBet) {
-        this.firstLineBet = firstLineBet;
+    protected Boolean checkForPropBet (String string) {
+        Character firstLetter = string.toLowerCase().charAt(0);
+        if (firstLetter.equals('y')) {
+            return true;
+        }else return false;
+    }
+    protected void resetFirstRoundState() {
+        data.setComeFirstRound(true);
+        data.setPassFirstRound(true);
     }
 
-    public Double getSecondLineBet() {
-        return secondLineBet;
-    }
 
-    public void setSecondLineBet(Double secondLineBet) {
-        this.secondLineBet = secondLineBet;
-    }
 
-    public Double getFieldBet() {
-        return fieldBet;
-    }
-
-    public void setFieldBet(Double fieldBet) {
-        this.fieldBet = fieldBet;
-    }
-
-//    public CrapsPlayer getCrapsPlayer() {
-//        return crapsPlayer;
-//    }
-
-    public Integer getStage() {
-        return stage;
-    }
-
-    public Integer getCurrentRoll() {
-        return currentRoll;
-    }
-
-    public void setCurrentRoll(Integer num) {
-        this.currentRoll = num;
-    }
-
-    @Override
-    void nextTurn() {
-    }
 
 }

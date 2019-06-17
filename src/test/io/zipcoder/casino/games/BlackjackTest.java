@@ -35,12 +35,12 @@ public class BlackjackTest {
     }
 
     @Test
-    public void getPlayer2ScoreTest() {
+    public void getDealerScoreTest() {
 
     }
 
     @Test
-    public void setPlayer2ScoreTest() {
+    public void setDealerScoreTest() {
 
     }
 
@@ -77,14 +77,17 @@ public class BlackjackTest {
     }
 }
 
-    /**@Test
-    public void updateAccount(){
-        Blackjack blackjack = new Blackjack();
 
-        blackjack.getBlackJackPlayer().setAccount(30.0);
-        Double expected = 30.0;
-        Double actual = blackjack.getBlackJackPlayer().getAccount();
-
-        Assert.assertEquals(expected, actual);
-    }
-} */
+//   @Test
+////>>>>>>> modified:src/test/java/io/zipcoder/casino/games/BlackjackTest.java
+//    public void updateAccount(){
+//        Blackjack blackjack = new Blackjack();
+//
+//        blackjack.getBlackJackPlayer().setAccount(30.0);
+//        Double expected = 30.0;
+//        Double actual = blackjack.getBlackJackPlayer().getAccount();
+//
+//        Assert.assertEquals(expected, actual);
+////<<<<<<< HEAD:src/test/io/zipcoder/casino/games/BlackjackTest.java
+//    }
+//}

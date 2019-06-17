@@ -1,51 +1,62 @@
 package io.zipcoder.casino;
 import io.zipcoder.casino.games.*;
-import io.zipcoder.casino.player.GoFishPlayer;
-import io.zipcoder.casino.player.CrapsPlayer;
-import io.zipcoder.casino.player.Player;
+import io.zipcoder.casino.player.*;
 import io.zipcoder.casino.utilities.Console;
+
+
 //
 public class Handler {
-    private Console console = new Console(System.in, System.out);
+    public Console console = new Console(System.in, System.out);
     public Player player;
-    private Integer intergerInput;
+    private Integer integerInput;
     private String name = "";
     private Double account = 0.0;
+    private Boolean accoutIsSet = false;
+    private Double tempDeposit;
+    public Handler handler;
+
 
 
 public void run() {
-    getNameInput();
-    getAccountBalanceInput();
-    createPlayer(name, account);
-    System.out.println("0 blackjack -- 1 go fish -- 2 roulette -- 3 craps -- 4 slots ");
+
+
+while (true) {
+    System.out.println("WELCOME TO THE BIG TROUBLE CASINO \n PICK FROM ONE OF OUR GAMES \n \n 0 blackjack -- 1 go fish -- 2 roulette -- 3 craps -- 4 slots \n");
     getGameInput();
 
 
 
-    switch (intergerInput) {
-        case 0 :
-            Blackjack blackjack = new Blackjack(player,console);
 
-
+    switch (integerInput) {
+        case 0:
+            BlackJackPlayer blackJackPlayer = new BlackJackPlayer();
+            Blackjack blackjack = new Blackjack();
+            blackjack.beginGame();
             break;
-        case 1 :
+        case 1:
             GoFishPlayer goFishPlayer = new GoFishPlayer(player);
-            GoFish goFish = new GoFish(goFishPlayer);
-            goFish.startTheGame();
+            GoFish goFish = new GoFish(goFishPlayer, console);
+            goFish.runGame();
             break;
         case 2:
-            Roulette roulette = new Roulette();
+            RoulettePlayer roulettePlayer = new RoulettePlayer(name, account);
+            Roulette roulette = new Roulette(roulettePlayer);
+            roulette.play();
             break;
         case 3:
             CrapsPlayer crapsPlayer = new CrapsPlayer(player);
-            Craps craps = new Craps(crapsPlayer);
+            Craps craps = new Craps(crapsPlayer, console /*,handler*/);
             craps.runGame();
             break;
         case 4:
-            Slots slots = new Slots();
+            SlotsPlayer slotsPlayer = new SlotsPlayer(player);
+            Slots slots = new Slots(slotsPlayer, console);
+            slots.runGame();
             break;
         default:
+
             System.out.println("you blew it");
+        }
     }
 }
 
@@ -58,10 +69,24 @@ public void run() {
     }
 
     public void getAccountBalanceInput() {
-       this.account = console.getDoubleInput("How much do you want to depoist in your account?");
+       this.tempDeposit = console.getDoubleInput("How much do you want to deposit in your account?");
+    }
+
+    public Boolean testAccountInput (Double tempDeposit) {
+        if (tempDeposit > 0 && tempDeposit < Double.MAX_VALUE) {
+            return true;
+        } else
+            return false;
     }
 
     public void getGameInput() {
-        this.intergerInput = console.getIntegerInput("What game would you like to play?");
+        this.integerInput = console.getIntegerInput("What game would you like to play?");
+    }
+
+    public void setUpPlayer(){
+        getNameInput();
+        getAccountBalanceInput();
+        createPlayer(name, tempDeposit);
     }
 }
+//

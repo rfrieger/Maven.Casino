@@ -33,10 +33,24 @@ public class Blackjack extends CardGames implements GamblerGameInterface {
         this.console = console;
     }
 
-    public void beginGame(){
-        //display("Welcome to the table " + BlackJackPlayer.player.getName() + "! \n");
+    /** 1)Prompt Player;
+        2)Run Game;
+        3)Deal;
+        4)Prompt Player;
+            4a) Stay();
+            4b) Hit();
+                b1) keep playing;
+                b2) bust/lose;
+        5) DealerTurn
+        6) Handle Winning/Loses */
 
-       
+
+
+    public void beginGame(){
+        console.println("Welcome to Blackjack!" + player1.getName());
+
+
+
         deck.deal(2, player1);
         deck.deal(2, dealer);
         ArrayList<Card> playerHand = player1.getHand();
@@ -77,6 +91,18 @@ public class Blackjack extends CardGames implements GamblerGameInterface {
 
     }
 
+    public boolean readyToPlay(String userInput) {
+        if (userInput.equalsIgnoreCase("yes")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void dealerWin(){};
+
+    public void playerWin(){};
+
     public Integer calcPayment(Integer bet, Integer odds) {
         return null;
     }
@@ -84,11 +110,6 @@ public class Blackjack extends CardGames implements GamblerGameInterface {
     public void updateAccount(Integer num) {}
 
     public void currentHand(){};
-
-    public void dealerWin(){};
-
-    public void playerWin(){};
-
 
     public void stay() {};
 
