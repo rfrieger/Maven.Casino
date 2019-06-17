@@ -27,32 +27,38 @@ public class SlotsTest {
     }
     @Test
     public void checkWinsTest() {
-        Slots slots = new Slots();
-        slots.generateMatrix();
-        Double actual = slots.CheckWins(5.0);
-        Double expected = 5.0;
+        for (int i= 0; i<10000; i++) {
+            Slots slots = new Slots();
+            slots.generateMatrix();
+            Double actual = slots.CheckWins(5.0);
+            Double expected = 5.0;
 
-        Assert.assertTrue(actual<=expected);
+            Assert.assertTrue(actual <= expected);
+        }
     }
 
     @Test
     public void checkWinsTest2() {
-        Slots slots = new Slots();
-        slots.generateMatrix();
-        Double actual = slots.CheckWins(3.0);
-        Double expected = 3.0;
+        for (int i= 0; i<10000; i++) {
+            Slots slots = new Slots();
+            slots.generateMatrix();
+            Double actual = slots.CheckWins(3.0);
+            Double expected = 3.0;
 
-        Assert.assertTrue(actual<=expected);
+            Assert.assertTrue(actual <= expected);
+        }
     }
 
     @Test
     public void checkWinsTest3() {
-        Slots slots = new Slots();
-        slots.generateMatrix();
-        Double actual = slots.CheckWins(1.0);
-        Double expected = 1.0;
+        for (int i= 0; i<10000; i++) {
+            Slots slots = new Slots();
+            slots.generateMatrix();
+            Double actual = slots.CheckWins(1.0);
+            Double expected = 1.0;
 
-        Assert.assertTrue(actual<=expected);
+            Assert.assertTrue(actual <= expected);
+        }
     }
 
     @Test
@@ -85,19 +91,36 @@ public class SlotsTest {
     }
 
     @Test
-    public void withdraw() {
+    public void withdrawTest() {
         Player player = new Player();
         SlotsPlayer slotsPlayer = new SlotsPlayer(player);
         Console console = new Console(System.in, System.out);
         Slots slots = new Slots(slotsPlayer, console);
 
         slots.slotsPlayer.player.setAccount(200.0);
-        slots.withdraw(220.0);
-        Double expected = -20.0;
+        slots.withdraw(20.0);
+        Double expected = 180.0;
 
         Double actual = slots.slotsPlayer.player.getAccount();
 
         Assert.assertEquals(expected,actual);
 
     }
+
+    @Test
+    public void depositTest(){
+        Player player = new Player();
+        SlotsPlayer slotsPlayer = new SlotsPlayer(player);
+        Console console = new Console(System.in, System.out);
+        Slots slots = new Slots(slotsPlayer, console);
+
+        slots.slotsPlayer.player.setAccount(100.0);
+        slots.deposit(13.0);
+        Double expected = 113.00;
+
+        Double actual = slots.slotsPlayer.player.getAccount();
+
+        Assert.assertEquals(expected, actual);
+    }
+
 }
