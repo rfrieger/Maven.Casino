@@ -1,10 +1,6 @@
 package io.zipcoder.casino;
 import io.zipcoder.casino.games.*;
-import io.zipcoder.casino.player.GoFishPlayer;
-import io.zipcoder.casino.player.CrapsPlayer;
-import io.zipcoder.casino.player.Player;
-import io.zipcoder.casino.player.RoulettePlayer;
-import io.zipcoder.casino.player.SlotsPlayer;
+import io.zipcoder.casino.player.*;
 import io.zipcoder.casino.utilities.Console;
 
 import java.util.Scanner;
@@ -32,9 +28,12 @@ while (true) {
 
 
 
+
     switch (integerInput) {
         case 0:
+            BlackJackPlayer blackJackPlayer = new BlackJackPlayer();
             Blackjack blackjack = new Blackjack();
+            blackjack.beginGame();
             break;
         case 1:
             GoFishPlayer goFishPlayer = new GoFishPlayer(player);

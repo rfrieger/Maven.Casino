@@ -14,9 +14,8 @@ public class Craps extends Games implements GamblerGameInterface {
 
 
 
-
-
     public Craps() {}
+
 
     public Craps(CrapsPlayer player) {
         this.crapsPlayer = player;
