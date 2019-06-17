@@ -18,12 +18,13 @@ public class Handler {
 
 
 public void run() {
+    console.println("WELCOME TO THE BIG TROUBLE CASINO");
     getNameInput();
     getAccountBalanceInput();
     createPlayer(name, tempDeposit);
 
 while (true) {
-    System.out.println("WELCOME TO THE BIG TROUBLE CASINO \n PICK FROM ONE OF OUR GAMES \n \n 0 blackjack -- 1 go fish -- 2 roulette -- 3 craps -- 4 slots \n");
+    System.out.println("\n PICK FROM ONE OF OUR GAMES \n \n 0 blackjack -- 1 go fish -- 2 roulette -- 3 craps -- 4 slots \n");
     getGameInput();
 
 
