@@ -7,8 +7,8 @@ public class BlackJackPlayer extends CardGamePlayer //implements GamblerInterfac
  {
 
 
-    public BlackJackPlayer(){
-        super();
+    public BlackJackPlayer(Player player){
+        super(player);
 
     }
     public void bet(Double bet) {

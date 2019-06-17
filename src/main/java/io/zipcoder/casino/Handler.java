@@ -32,8 +32,8 @@ while (true) {
 
     switch (integerInput) {
         case 0:
-            BlackJackPlayer blackJackPlayer = new BlackJackPlayer();
-            Blackjack blackjack = new Blackjack();
+            BlackJackPlayer blackJackPlayer = new BlackJackPlayer(player);
+            Blackjack blackjack = new Blackjack(blackJackPlayer, console);
             blackjack.beginGame();
             break;
         case 1:
