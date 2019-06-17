@@ -228,7 +228,23 @@ public class CrapsTest {
     @Test
     public void displayCurrentState() {
         String actual =
-                "*-----------------------------------*\nCurrent Balance: 1000.0\nPassline Bet: 0.0\nCome Out Bet: 0.0\nOn Number: null\nProp Bet Type: 0\nProb Bet: 0.0\n\n*-----------------------------------*\n";
+                "*-----------------------------------*\nCurrent Balance: 1000.0\nPassline Bet: 0.0\nCome Out Bet: 0.0\nOn Number: 0\nProp Bet Type: 0\nProb Bet: 0.0\n\n*-----------------------------------*\n";
+
+        String expected = craps.displayCurrentState();
+
+        Assert.assertEquals(expected, actual);
+
+
+    }
+
+    @Test
+    public void displayCurrentState2() {
+        craps.data.setFieldBetType(5);
+        craps.data.setFieldBet(10.0);
+        craps.data.setSecondLineBet(10.0);
+        craps.data.setFirstLineBet(10.0);
+        String actual =
+                "*-----------------------------------*\nCurrent Balance: 1000.0\nPassline Bet: 10.0\nCome Out Bet: 10.0\nOn Number: 0\nProp Bet Type: 5\nProb Bet: 10.0\n\n*-----------------------------------*\n";
 
         String expected = craps.displayCurrentState();
 
@@ -300,6 +316,62 @@ public class CrapsTest {
 
     @Test
     public void keepPlayingOrQuit() {
+
+    }
+
+    @Test
+    public void resetBetsfieldbet() {
+        craps.data.setFieldBetType(5);
+        craps.data.setFieldBet(10.0);
+        craps.data.setSecondLineBet(10.0);
+        craps.data.setFirstLineBet(10.0);
+
+        craps.resetBets();
+
+        Double actual = craps.data.getFieldBet();
+        Double expeceted = 0.0;
+
+    }
+
+    @Test
+    public void resetBetsfieldbettype() {
+        craps.data.setFieldBetType(5);
+        craps.data.setFieldBet(10.0);
+        craps.data.setSecondLineBet(10.0);
+        craps.data.setFirstLineBet(10.0);
+
+        craps.resetBets();
+
+        Integer actual = craps.data.getFieldBetType();
+        Integer expeceted = 0;
+
+    }
+
+    @Test
+    public void resetBetssecondline() {
+        craps.data.setFieldBetType(5);
+        craps.data.setFieldBet(10.0);
+        craps.data.setSecondLineBet(10.0);
+        craps.data.setFirstLineBet(10.0);
+
+        craps.resetBets();
+
+        Double actual = craps.data.getSecondLineBet();
+        Double expeceted = 0.0;
+
+    }
+
+    @Test
+    public void resetBetsfirstline() {
+        craps.data.setFieldBetType(5);
+        craps.data.setFieldBet(10.0);
+        craps.data.setSecondLineBet(10.0);
+        craps.data.setFirstLineBet(10.0);
+
+        craps.resetBets();
+
+        Double actual = craps.data.getFirstLineBet();
+        Double expeceted = 0.0;
 
     }
 }
