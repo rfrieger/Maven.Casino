@@ -1,5 +1,6 @@
 package io.zipcoder.casino.games;
 
+import com.sun.javadoc.SourcePosition;
 import io.zipcoder.casino.Handler;
 import io.zipcoder.casino.player.Player;
 import io.zipcoder.casino.player.SlotsPlayer;
@@ -48,6 +49,11 @@ public class Slots extends Games implements GamblerGameInterface {
            //console.println(slotsPlayer.player.getAccount().toString());
             if (tempBet==1||tempBet==3||tempBet==5){
                 bet = tempBet;
+               while (slotsPlayer.player.getAccount()<bet){
+                  Double addMoneyToAccount= console.getDoubleInput("you don't have enough money. Add money to you account. Do it below, please");
+                   slotsPlayer.player.setAccount(slotsPlayer.player.getAccount()+addMoneyToAccount);
+              }
+
             }
               else{
                 console.println("please, choose between 1 or 3 or 5");
@@ -67,16 +73,32 @@ public class Slots extends Games implements GamblerGameInterface {
             System.out.println();
             System.out.println(slotsPlayer.player.getAccount().toString());
             System.out.println();
-            String tryAgain = console.getStringInput("do you want to play again? choose between yes/no");
-
-
-           //if it is no it should bring you to the menu, where you are choosing the game)
-            if (tryAgain.equals("no")) {
-                slotsPlayer.setPlaying(false);
+            Boolean contPlaying = true;
+            while(contPlaying){
+                String tryAgain = console.getStringInput("do you want to play again? choose between yes/no");
+                Character firstletter = tryAgain.toLowerCase().charAt(0);
+                System.out.println(firstletter);
+                switch (firstletter){
+                    case 'n':
+                       slotsPlayer.setPlaying(false);
+                       contPlaying=false;
+                       break;
+                    case 'y':
+                        contPlaying=false;
+                        break;
+                }
             }
 
+
+
+
+//
+//                if(tryAgain.equals("no")) {
+//                slotsPlayer.setPlaying(false);
+//            }
+
         } while (slotsPlayer.getPlaying().equals(true));
-        // should be added something that sends back to the main menu
+
 
 
         endGame();
@@ -84,16 +106,22 @@ public class Slots extends Games implements GamblerGameInterface {
     }
 //////////////////////////////Generate Matrix//////////////////////////////
    public void generateMatrix() {
-
+//        Random rand = new Random();
        int max = characters.length;
        int min = 1;
        int range = max - min + 1;
 
+
        for (int i = 0; i <= 2; i++) {
            for (int j = 0; j <= 2; j++) {
-               int rand = (int) (Math.random() * range);
-               System.out.print(characters[rand]);
-               toSave[i][j] = characters[rand];
+//               int rand = (int) (Math.random() * range);
+//               System.out.print(characters[rand]);
+//               toSave[i][j] = characters[rand];
+               Random rand = new Random();
+               int n = rand.nextInt(range);
+               System.out.print(characters[n]);
+               toSave[i][j]=characters[n];
+
            }
            System.out.println();
        }
@@ -178,14 +206,15 @@ public class Slots extends Games implements GamblerGameInterface {
     public Double calcPayment1(Double bet, Double countPayLines) {
 
         result =bet * countPayLines;
-        System.out.println("You won "+ result+bet +"$");
+        Double winningAmount = result+bet;
+        System.out.println("You won "+ winningAmount +"$");
       updateAccount(result);
         return result;
 
     }
 
 
-//////////////////////////////mine
+//////////////////////////////account manipulations///////////////////////////////
 
 
 
