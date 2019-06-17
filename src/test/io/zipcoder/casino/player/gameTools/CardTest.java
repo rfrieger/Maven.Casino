@@ -16,23 +16,23 @@ public class CardTest {
     @Test
     public void getCardValueAce() {
         Card card = deck.getDeck().pop();
-        Assert.assertEquals("Ace", CardValue.ACE.name());
+        Assert.assertEquals("ACE", CardValue.ACE.name());
     }
     @Test
     public void getCardValueTwo() {
         Card card = deck.getDeck().pop();
-        Assert.assertEquals("Two",CardValue.TWO.name());
+        Assert.assertEquals("TWO",CardValue.TWO.name());
     }
 
     @Test
     public void getSuitSpades() {
         Card card = deck.getDeck().pop();
-        Assert.assertEquals("Spades", Suit.SPADES.name());
+        Assert.assertEquals("SPADES", Suit.SPADES.name());
     }
     @Test
     public void getSuitHearts() {
         Card card = deck.getDeck().pop();
-        Assert.assertEquals("Hearts",Suit.HEARTS.name());
+        Assert.assertEquals("HEARTS",Suit.HEARTS.name());
     }
     @Test
     public void checkObjectTest(){

@@ -10,14 +10,16 @@ import java.util.ArrayList;
 
 public class Blackjack extends Games implements GamblerGameInterface {
 
-    BlackJackPlayer player1 = new BlackJackPlayer();
-    BlackJackPlayer dealer = new BlackJackPlayer();
+    BlackJackPlayer player1;
+    BlackJackPlayer dealer = new BlackJackPlayer(new Player());
 
     private Integer player1Score;
     private Integer dealerScore;
     private Double currentBet;
     private String userInput;
     private Deck deck = new Deck();
+    private ArrayList<Card> hand1 = new ArrayList<Card>();
+    private ArrayList<Card> hand2 = new ArrayList<Card>();
     Console console;
 
 
@@ -31,8 +33,17 @@ public class Blackjack extends Games implements GamblerGameInterface {
 
     }
 
-    public Blackjack(Player player, Console console) {
+    public Blackjack(BlackJackPlayer player, Console console) {
+        super();
+        this.player1 = player;
         this.console = console;
+        this.odds = 2.0;
+        this.player1Score = 0;
+        this.dealerScore = 0;
+        this.currentBet = 0.0;
+        this.userInput = "";
+
+
     }
 
     /**
@@ -48,8 +59,9 @@ public class Blackjack extends Games implements GamblerGameInterface {
      * 6) Handle Winning/Loses
      */
 
-    ArrayList<Card> playerHand = player1.getHand();
-    ArrayList<Card> dealerHand = dealer.getHand();
+    ArrayList<Card> playerHand = hand1;
+    ArrayList<Card> dealerHand = hand2;
+
 
     public void beginGame() {
         console.println("Welcome to Blackjack!");

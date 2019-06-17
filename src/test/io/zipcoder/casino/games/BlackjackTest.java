@@ -69,18 +69,18 @@ public class BlackjackTest {
 
     }
 
-    @Test
-    public void calcBJPaymentTest() {
-        Blackjack blackjack = new Blackjack();
-
-        blackjack.setOdds(2.0);
-        blackjack.setCurrentBet(100.0);
-
-        Double expected = 200.0;
-        Double actual = blackjack.calcPayment(blackjack.odds, blackjack.getCurrentBet());
-
-        Assert.assertEquals(expected, actual);
-    }
+//    @Test
+//    public void calcBJPaymentTest() {
+//        Blackjack blackjack = new Blackjack();
+//
+//        blackjack.setOdds(2.0);
+//        blackjack.setCurrentBet(100.0);
+//
+//        Double expected = 200.0;
+//        Double actual = blackjack.calcPayment(blackjack.odds, blackjack.getCurrentBet());
+//
+//        Assert.assertEquals(expected, actual);
+//    }
 }
 
 
