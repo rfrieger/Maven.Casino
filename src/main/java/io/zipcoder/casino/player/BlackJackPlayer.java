@@ -6,8 +6,8 @@ package io.zipcoder.casino.player;
 public class BlackJackPlayer extends CardGamePlayer implements GamblerInterface {
 
 
-    public BlackJackPlayer(){
-        super();
+    public BlackJackPlayer(Player player){
+        super(player);
 
     }
     public void bet(Double bet) {
