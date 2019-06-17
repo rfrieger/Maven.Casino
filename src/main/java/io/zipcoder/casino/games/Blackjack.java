@@ -51,10 +51,10 @@ public class Blackjack extends Games implements GamblerGameInterface {
      * 2)Run Game;
      * 3)Deal;
      * 4)Prompt Player;
-     * 4a) Stay();
-     * 4b) Hit();
-     * b1) keep playing;
-     * b2) bust/lose;
+     *  4a) Stay();
+     *  4b) Hit();
+     *      b1) keep playing;
+     *      b2) bust/lose;
      * 5) DealerTurn
      * 6) Handle Winning/Loses
      */
@@ -71,9 +71,12 @@ public class Blackjack extends Games implements GamblerGameInterface {
             dealHand();
             player1Turn();
             dealerTurn();
+            getWinner();
         }
-        getWinner();
-    }
+
+        }
+
+
 
     public String seeHand(BlackJackPlayer player) {
         String hand = "";
@@ -91,21 +94,25 @@ public class Blackjack extends Games implements GamblerGameInterface {
     }
 
     public void player1Turn() {
-        seeHand(player1);
+        console.println(seeHand(player1));
         String playerChoice = console.getStringInput("What do you want to do? Pick 1 for hit and 2 for stay.");
-        if ((player1Move(playerChoice))) {
+        while ((player1Move(playerChoice))) {
             deck.dealSingleCard(player1);
+            seeHand(player1);
+            break;
         }
-        seeHand(player1);
-
+        console.println(seeHand(player1));
         String playerChoice2 = console.getStringInput("What do you want to do? Pick 1 for hit and 2 for stay.");
-        if ((player1Move2(playerChoice2))) {
+        while ((player1Move2(playerChoice2))) {
             deck.dealSingleCard(player1);
+            seeHand(player1);
+            break;
         }
+
     }
 
     public boolean player1Move(String playerChoice) {
-        if (userInput.equalsIgnoreCase("1")) {
+        if (playerChoice.equalsIgnoreCase("1")) {
             return true;
         } else {
             return false;
@@ -113,7 +120,7 @@ public class Blackjack extends Games implements GamblerGameInterface {
     }
 
     public boolean player1Move2(String playerChoice2) {
-        if (userInput.equalsIgnoreCase("1")) {
+        if (playerChoice2.equalsIgnoreCase("1")) {
             return true;
         } else {
             return false;

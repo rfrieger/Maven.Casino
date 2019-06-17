@@ -1,59 +1,15 @@
 package io.zipcoder.casino.games;
 
 
+import io.zipcoder.casino.player.BlackJackPlayer;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import io.zipcoder.casino.Handler;
 import io.zipcoder.casino.player.Player;
+import io.zipcoder.casino.games.Blackjack;
 
 public class BlackjackTest {
-
-    @Test
-    public void countPlayerHandTest(){
-
-    }
-
-
-    @Test
-    public void stayTest() {
-
-    }
-
-    @Test
-    public void splitTest() {
-
-    }
-
-    @Test
-    public void doubleDownTest() {
-
-    }
-
-    @Test
-    public void getPlayer1ScoreTest() {
-
-    }
-
-    @Test
-    public void setPlayer1ScoreTest() {
-
-    }
-
-    @Test
-    public void getDealerScoreTest() {
-
-    }
-
-    @Test
-    public void setDealerScoreTest() {
-
-    }
-
-    @Test
-    public void nextTurnTest() {
-
-    }
 
     @Test
     public void endGameTest() {
@@ -69,31 +25,57 @@ public class BlackjackTest {
 
     }
 
-//    @Test
-//    public void calcBJPaymentTest() {
+    @Test
+    public void calcBJPaymentTest() {
+        Blackjack blackjack = new Blackjack();
+
+        blackjack.setOdds(2.0);
+        blackjack.setCurrentBet(100.0);
+
+        Double expected = 200.0;
+        Double actual = blackjack.calcPayment(blackjack.odds, blackjack.getCurrentBet());
+
+        Assert.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void player1MoveTest() {
+//        BlackJackPlayer blackJackPlayer = new BlackJackPlayer();
+//        String playerChoice = "1";
+//        Assert.assertTrue(Blackjack.player1Move(playerChoice));
+    }
+
+    @Test
+    public void player1Move2Test() {
+//    String playerChoice = "1";
+//    Assert.assertTrue(Blackjack.player1Move(playerChoice));
+    }
+
+     @Test
+    public void readyToPlayTest(){
+//        Blackjack blackjack = new Blackjack();
+//        String userInput = new String();
+//        Assert.assertTrue(userInput.readyToPlay("Y"));
+    }
+
+    @Test
+    public void dealHandTest(){
 //        Blackjack blackjack = new Blackjack();
 //
-//        blackjack.setOdds(2.0);
-//        blackjack.setCurrentBet(100.0);
+//        Integer expected =
+//        Integer actual =
+    }
+
+    @Test
+   public void updateAccount(){
+//        Blackjack blackjack = new Blackjack();
 //
-//        Double expected = 200.0;
-//        Double actual = blackjack.calcPayment(blackjack.odds, blackjack.getCurrentBet());
+//       blackjack.getBlackJackPlayer().setAccount(30.0);
+//       Double expected = 30.0;
+//       Double actual = blackjack.getBlackJackPlayer().getAccount();
 //
 //        Assert.assertEquals(expected, actual);
-//    }
+
+   }
 }
 
-
-//   @Test
-////>>>>>>> modified:src/test/java/io/zipcoder/casino/games/BlackjackTest.java
-//    public void updateAccount(){
-//        Blackjack blackjack = new Blackjack();
-//
-//        blackjack.getBlackJackPlayer().setAccount(30.0);
-//        Double expected = 30.0;
-//        Double actual = blackjack.getBlackJackPlayer().getAccount();
-//
-//        Assert.assertEquals(expected, actual);
-////<<<<<<< HEAD:src/test/io/zipcoder/casino/games/BlackjackTest.java
-//    }
-//}
