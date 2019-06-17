@@ -28,13 +28,13 @@ public class RouletteTest {
         Assert.assertEquals(36,actual.intValue());
     }
 
-    @Test
-    public void updateAccountTest() {
-        this.roulette.updateAccount(10);
-        Double actual = this.roulette.roulettePlayer.getAccount();
-        Assert.assertEquals(10,actual.doubleValue(),0.0);
-
-    }
+//    @Test
+//    public void updateAccountTest() {
+//        this.roulette.updateAccount(10);
+//        Double actual = this.roulette.roulettePlayer.getAccount();
+//        Assert.assertEquals(10,actual.doubleValue(),0.0);
+//
+//    }
 
 
     @Test

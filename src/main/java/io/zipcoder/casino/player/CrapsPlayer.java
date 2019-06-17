@@ -4,6 +4,8 @@ import io.zipcoder.casino.gameTools.Dice;
 
 public class CrapsPlayer extends Player implements GamblerInterface {
     public Player player;
+    public String  betTypeVal = "";
+    public Double betVal = 0.0;
 
     public CrapsPlayer(){};
 
@@ -18,10 +20,12 @@ public class CrapsPlayer extends Player implements GamblerInterface {
     }
 
     public void bet(Double bet) {
+        this.betVal = bet;
 
     }
 
     public void betType(String betType) {
+        this.betTypeVal = betType;
 
     }
 
